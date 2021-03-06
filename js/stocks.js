@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
+    //localStorage 
+    //stores key-value pairs. So to store a entire javascript object we need to serialize it first (with JSON.stringify, for example): 
+    //You will need to check to see if local storage exists before you put everything into the array
+    
     //API Links
     const companyAPI = 'https://www.randyconnolly.com/funwebdev/3rd/api/stocks/companies.php';
     //Header - Credits
@@ -27,13 +31,15 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("companies").innerHTML ="";
         for(company of companies){
             let option = document.createElement('option');
-            let symbol = document.createAttribute(`${company.symbol}`);
+            let symbol = document.createAttribute("id");
+            symbol.value = `${company.symbol}`;
             option.setAttributeNode(symbol);
             option.text = `${company.symbol} | ${company.name}`;
             document.getElementById("companies").add(option);
             //Attribute will be company symbol to be used in search function later
         }
-        options = document.querySelectorAll('option'); //Options available after the list has been loaded
+         //Options available after the list has been loaded
+         eventListenerOptions();
     }
     //Event listener for filter
     document.getElementById("go").addEventListener("click", function(){
@@ -48,17 +54,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     //Event listener for option select
-    
-    for(option of options)
-    {
-        option.addEventListener("change", function(){
-            console.log("Option selected")
-        });
+    function eventListenerOptions(){
+        options = document.querySelectorAll('option');
+        for(option of options)
+        {
+            option.addEventListener("click", function(e){
+                selectedOption = e.target;
+                //Send this option.id to find function
+                //find function sends array object to all of the other functions to populate the site
+                console.log(selectedOption.id);
+            });
+        }
     }
-    //On go use the text in filter to search through array, use arrayfunction 
 
-    //Find function for retrieving specific company data based on company symbol
-
+    //Find function for retrieving specific company data based on company symbol returning company from array of companies for use in other functions also calls other functions
     //Company Information
 
     //Map
@@ -70,10 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
     //Charts
 
     //Company Name + Symbol
-
+    
     //Financials
 
-    //localStorage 
-    //stores key-value pairs. So to store a entire javascript object we need to serialize it first (with JSON.stringify, for example): 
-    //You will need to check to see if local storage exists before you put everything into the array
+    
 });
