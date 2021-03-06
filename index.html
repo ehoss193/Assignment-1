@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-   <meta charset="utf-8"/>  
-    <title>Assignment1</title>   
-    <script
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_HERE& callback=initMap"></script>   
+    <meta charset="utf-8" />
+    <title>COMP 3512 Assign 1</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_HERE& callback=initMap"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- Bootstrap Stylesheet taken from https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
     <link rel="stylesheet" href="css/stocks.css">
     <script src="js/stocks.js"></script>
 </head>
+
 <body>
-    <div id="header">
+    <header>
+        <h2>COMP3512 Assignment 1</h2>
+        <label>Credits</label>
+    </header>
+    <div class=grid-container-a>
+        <div class="grid-item-a" id="list">
 
-    </div>
-    <div id="list">
+        </div>
+        <div class="grid-item-a" id="info">
 
-    </div>
-    <div id="info">
+        </div>
+        <div class="grid-item-a" id="map">
 
-    </div>
-    <div id="map">
+        </div>
+        <div class="grid-item-a" id="data">
 
-    </div>
-    <div id="data">
+        </div>
+        <div class="grid-item-a" id="minmax">
 
+        </div>
     </div>
-    <div id="minmax">
+    <div class=grid-container-b>
+        <div class="grid-item-b" id="charts">
 
-    </div>
-    <div id="charts">
+        </div>
+        <div class="grid-item-b" id="description">
 
-    </div>
-    <div id="description">
+        </div>
+        <div class="grid-item-b" id="financials">
 
-    </div>
-    <div id="financials">
-        
+        </div>
     </div>
 </body>
+
 </html>
