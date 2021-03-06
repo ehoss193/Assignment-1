@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>COMP 3512 Assign 1</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_HERE& callback=initMap"></script>
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_HERE& callback=initMap"></script>-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <!-- Bootstrap Stylesheet taken from https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
@@ -22,9 +22,12 @@
             <h3>List of Companies</h3>
             <form>
                 <label>Filter:</label>
-                <input type="text" class="search" placeholder="Type to filter company" list="filterList"></br>
-                <input type="button" value="Go">
-                <input type="button" value="Clear">
+                <input id="field" type="text" class="search" placeholder="By company name" list="filterList">
+                <input id="go"type="button" value="Go">
+                <input id="clear"type="button" value="Clear"></br>
+                <select id ="companies" size="25">
+                    <!-- When you eventually make the grid size fixed you can likely just have the grid be scrollable again -->
+                </select>
             </form>
         </div>
         <div class="grid-item-a2" id="info">
