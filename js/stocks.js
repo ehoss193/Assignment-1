@@ -87,11 +87,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function populateData(symbol){
         let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
         displayInformation(chosenCompany);
-        displayMap(company);
-        displayStockData(company);
-        displayCharts(company);
-        displayNameSymbol(company);
-        displayFinancials(company);
+        displayMap(chosenCompany);
+        displayStockData(chosenCompany);
+        displayCharts(chosenCompany);
+        displayNameSymbol(chosenCompany);
+        displayFinancials(chosenCompany);
     }
     //Company Information
     function displayInformation(company) {
@@ -115,9 +115,15 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("generatedInfo").appendChild(info);
         document.getElementById("generatedInfo").appendChild(link);
     }
-    //Map
+    //Map Generation
+    
     function displayMap(company) {
-
+        console.log(company.latitude);
+        let map;
+        map = new google.maps.Map(document.getElementById('map'), {
+            center:{lat: company.latitude, lng: company.longitude},
+            zoom: 8
+        });
     }
     //Stock Data
     function displayStockData(company) {

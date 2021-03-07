@@ -44,6 +44,9 @@ body {
     display: block;
     width: 200px;
 }
+#map {
+    height: 600px;
+}
 .grid-container-a {
     display: grid;
     grid-template-columns: auto auto auto;
