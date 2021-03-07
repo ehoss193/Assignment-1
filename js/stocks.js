@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function populateData(symbol) {
         console.log(symbol);
         let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
+        console.log(chosenCompany);
         displayInformation(chosenCompany);
         displayMap(chosenCompany);
         fetchStockData(symbol);
@@ -137,14 +138,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     //Stock Data
     function displayStockData(data) {
-        //It would likely make sense to output this via table to keep elements roughly together?
-        //Find out how to put in additional tables via javascript
-        //let financialTable = document.getElementById('dataList');
         let stockTable = document.getElementById('dataList');
         let openValues = [], closeValues = [], lowValues = [], highValues = [], volumeValues = [];
         //Clearing table from previous company
         while (stockTable.rows.length > 1) {
             stockTable.deleteRow(1);
+        }
+        //Clear avg table from previous company
+        deleteCells('average');
+        //Clear min table from previous company
+        deleteCells('min');
+        //Clear max table from previous company
+        deleteCells('max');
+        //Throw error if company symbol returned no result
+        if (data.length == 0) {
+            throw new Error('Company does not exist in company data API');
         }
         //Populate Stock Data Table
         for (d of data) {
@@ -170,16 +178,10 @@ document.addEventListener("DOMContentLoaded", function () {
             highValues.push(parseFloat(d.high));
             volumeValues.push(parseFloat(d.volume));
         }
-        //Clear avg table from previous company
-        deleteCells('average');
         //Populate avg table row
         addCells('average', openValues, closeValues, lowValues, highValues, volumeValues);
-        //Clear avg table from previous company
-        deleteCells('min');
         //Populate min table row
         addCells('min', openValues, closeValues, lowValues, highValues, volumeValues);
-        //Clear avg table from previous company
-        deleteCells('max');
         //Populate max table row
         addCells('max', openValues, closeValues, lowValues, highValues, volumeValues);
     }
@@ -269,7 +271,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     //Financials Needs to be a formatted table
     function displayFinancials(company) {
-
+        let financialTable = document.getElementById('financialdata');
+        if (company.financials == null) {
+            throw new Error('Company finacials do not exist.');
+        }
     }
     //Speech
     document.querySelector('#speak').addEventListener('click', (e) => {
@@ -288,6 +293,7 @@ document.addEventListener("DOMContentLoaded", function () {
         retrieveStorage();
     }
     console.log(loadedCompanies);
-    //Pearson Plc doesn't work
-    //Need to generate error to console if something doesn't work
+    for(let company of loadedCompanies){
+        console.log(company.financials);
+    }
 });
