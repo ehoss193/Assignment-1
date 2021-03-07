@@ -139,12 +139,14 @@ document.addEventListener("DOMContentLoaded", function () {
         //It would likely make sense to output this via table to keep elements roughly together?
         //Find out how to put in additional tables via javascript
         //let financialTable = document.getElementById('dataList');
-        let firstrow = document.getElementById('firstDataRow');
         let stockTable = document.getElementById('dataList');
+        let minMaxTable = document.getElementById('avgminmax');
+        let openValues = [], closeValues = [], lowValues = [], highValues = [], volumeValues = [];
         //Clearing table from previous company
         while (stockTable.rows.length > 1) {
             stockTable.deleteRow(1);
         }
+        //Populate Stock Data Table
         for (d of data) {
             //Creating new row in table
             let row = stockTable.insertRow();
@@ -161,8 +163,47 @@ document.addEventListener("DOMContentLoaded", function () {
             highCell.innerHTML = `${d.high}`;
             let volumeCell = row.insertCell(5);
             volumeCell.innerHTML = `${d.volume}`;
+            //Values put into an array for each datacell for max min and average calculation
+            openValues.push(parseFloat(d.open));
+            closeValues.push(parseFloat(d.open));
+            lowValues.push(parseFloat(d.open));
+            highValues.push(parseFloat(d.open));
+            volumeValues.push(parseFloat(d.open));
         }
-        console.log(data);
+        //Populate min max avg table adding table data to each row
+        //console.log(openValues);
+        //console.log(calculateAverage(openValues));
+        //console.log(getMax(openValues));
+        //console.log(getMin(openValues));
+        
+    }
+    //Calculate the average from an array of numbers
+    function calculateAverage(numbers){
+        let avg = 0;
+        for(let x = 0; x < numbers.length; x++){
+            avg += numbers[x];
+        }
+        return avg = avg/numbers.length;
+    }
+    //Calculate the max from an array of numbers
+    function getMax(numbers){
+        let max = 0;
+        for(let x = 0; x < numbers.length; x++){
+            if(max < numbers[x]){
+                max = numbers[x];
+            }
+        }
+        return max;
+    }
+    //Calculate the min from an array of numbers
+    function getMin(numbers){
+        let min = numbers[0];
+        for(let x = 0; x < numbers.length; x++){
+            if(min > numbers[x]){
+                min = numbers[x];
+             }
+        }
+        return min;
     }
     //Charts
     function displayCharts(company) {
