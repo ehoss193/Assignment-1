@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <title>COMP 3512 Assign 1</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBiKum5xdpqrOBA4SDCOkHHJE_3IktBlA& callback=initMap"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBiKum5xdpqrOBA4SDCOkHHJE_3IktBlA& callback=initMap"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <!-- Bootstrap Stylesheet taken from https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
@@ -23,9 +24,9 @@
             <form>
                 <label>Filter:</label>
                 <input id="field" type="text" class="search" placeholder="By company name" list="filterList">
-                <input id="go"type="button" value="Go">
-                <input id="clear"type="button" value="Clear"></br>
-                <select id ="companies" size="50">
+                <input id="go" type="button" value="Go">
+                <input id="clear" type="button" value="Clear"></br>
+                <select id="companies" size="50">
                     <!-- When you eventually make the grid size fixed you can likely just have the grid be scrollable again -->
                 </select>
             </form>
@@ -33,24 +34,40 @@
         <div class="grid-item-a2" id="info">
             <h3>Company Information</h3>
             <div id="generatedInfo">
-                
+
             </div>
         </div>
         <div class="grid-item-a3" id="gridmap">
             <h3>Map</h3>
-            <div id ="map">
+            <div id="map">
 
             </div>
         </div>
-        <div class="grid-item-a4" id="data">
+        <div class="grid-item-a4" id="stockData">
             <h3>Stock Data</h3>
-            <input type="button" value="Go">
-        </div>
+            <input type="button" value="View Charts">
+            <table id="dataList">
+                <tr>
+                    <th>Date</th>
+                    <th>Open</th>
+                    <th>Close</th>
+                    <th>Low</th>
+                    <th>High</th>
+                    <th>Volume</th>
+                </tr>
+                <tr id="firstDataRow">
 
+                </tr>
+            </table>
+        </div>
     </div>
+    
     <div class=grid-container-b>
         <div class="grid-item-b1" id="charts">
             <h3>Charts</h3>
+            <div id="charts">
+
+            </div>
         </div>
         <div class="grid-item-b2" id="company">
             <div id="name-symbol">

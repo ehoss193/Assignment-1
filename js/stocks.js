@@ -1,14 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
     //API Links
     const companyAPI = 'https://www.randyconnolly.com/funwebdev/3rd/api/stocks/companies.php';
-    //let stockAPI = 'https://www.randyconnolly.com/funwebdev/3rd/api/stocks/history.php?symbol=xxx' xxx is the company symbol
-    //localStorage 
-    //stores key-value pairs. So to store a entire javascript object we need to serialize it first (with JSON.stringify, for example): 
-    //You will need to check to see if local storage exists before you put everything into the array
+    let stockAPI = 'https://www.randyconnolly.com/funwebdev/3rd/api/stocks/history.php?symbol=' //Add xxx to end of link (company symbol)
+    //Add company to localStorage 
     let localStorage = window.localStorage;
     function addStorage(company) {
         localStorage.setItem(`${company.symbol}`, `${JSON.stringify(company)}`);
     }
+    //Retrieve companies from local storage
     function retrieveStorage() {
         keys = Object.keys(localStorage);
         for (let x = 0; x < keys.length; x++) {
@@ -36,15 +35,21 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => storeCompanies(data))
             .catch(error => console.error(error));
     }
-    //will need conditional statement for stored or not stored and if loadedCompanies is empty/full
+    function fetchStockData(symbol) {
+        fetch(`${stockAPI}${symbol}`)
+            .then((resp) => resp.json())
+            .then(data => displayStockData(data))
+            .catch(error => console.error(error));
+    }
+    //If there is no storage this function is called to store each company value
     function storeCompanies(companies) {
         for (let company of companies) {
             loadedCompanies.push(company);
             addStorage(company);
-            console.log(company);
         }
         populateList(loadedCompanies);
     }
+    //Populates the list of companies from data obtained from API or local storage
     function populateList(companies) {
         //Empty any visible options first
         document.getElementById("companies").innerHTML = "";
@@ -55,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             option.setAttributeNode(symbol);
             option.text = `${company.name}`;
             document.getElementById("companies").add(option);
-            //Attribute will be company symbol to be used in search function later
+            //Attribute is company symbol to be used in search function later
         }
         //Options available after the list has been loaded
         eventListenerOptions();
@@ -85,11 +90,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     //Populate all elements after finding company based on symbol
-    function populateData(symbol){
+    function populateData(symbol) {
         let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
         displayInformation(chosenCompany);
         displayMap(chosenCompany);
-        displayStockData(chosenCompany);
+        fetchStockData(symbol);
+        //displayStockData(chosenCompany);
         displayCharts(chosenCompany);
         displayNameSymbol(chosenCompany);
         displayFinancials(chosenCompany);
@@ -121,23 +127,42 @@ document.addEventListener("DOMContentLoaded", function () {
         //document.getElementById("generatedInfo").appendChild(link);
     }
     //Map Generation
-    
     function displayMap(company) {
-        console.log(company.latitude);
         let map;
         map = new google.maps.Map(document.getElementById('map'), {
-            center:{lat: company.latitude, lng: company.longitude},
+            center: { lat: company.latitude, lng: company.longitude },
             zoom: 15
         });
     }
     //Stock Data
-    function displayStockData(company) {
-        let nameSymbol = document.createElement('h3');
-        let description = document.createElement('p');
-        description.innerText = `${company.description}`;
-        nameSymbol.innerText = `${company.name} (${company.symbol})`;
-        document.getElementById("name-symbol").appendChild(nameSymbol);
-        document.getElementById("name-symbol").appendChild(description);
+    function displayStockData(data) {
+        //It would likely make sense to output this via table to keep elements roughly together?
+        //Find out how to put in additional tables via javascript
+        //let financialTable = document.getElementById('dataList');
+        let firstrow = document.getElementById('firstDataRow');
+        let stockTable = document.getElementById('dataList');
+        //Clearing table from previous company
+        while (stockTable.rows.length > 1) {
+            stockTable.deleteRow(1);
+        }
+        for (d of data) {
+            //Creating new row in table
+            let row = stockTable.insertRow();
+            //Creating new data cells in table from company API data
+            let dateCell = row.insertCell(0);
+            dateCell.innerHTML = `${d.date}`;
+            let openCell = row.insertCell(1);
+            openCell.innerHTML = `${d.open}`;
+            let closeCell = row.insertCell(2);
+            closeCell.innerHTML = `${d.close}`;
+            let lowCell = row.insertCell(3);
+            lowCell.innerHTML = `${d.low}`;
+            let highCell = row.insertCell(4);
+            highCell.innerHTML = `${d.high}`;
+            let volumeCell = row.insertCell(5);
+            volumeCell.innerHTML = `${d.volume}`;
+        }
+        console.log(data);
     }
     //Charts
     function displayCharts(company) {
@@ -145,14 +170,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     //Company Name + Symbol
     function displayNameSymbol(company) {
-        
+        //Clearing previous company data
+        document.getElementById("name-symbol").innerHTML = '';
+        let nameSymbol = document.createElement('h3');
+        let description = document.createElement('p');
+        description.innerText = `${company.description}`;
+        nameSymbol.innerText = `${company.name} (${company.symbol})`;
+        document.getElementById("name-symbol").appendChild(nameSymbol);
+        document.getElementById("name-symbol").appendChild(description);
     }
-    //Financials
+    //Financials Needs to be a formatted table
     function displayFinancials(company) {
 
     }
     //Speech
-    document.querySelector('#speak').addEventListener('click', (e) =>{
+    document.querySelector('#speak').addEventListener('click', (e) => {
         let speech = document.querySelector('#name-symbol p');
         const utterance = new SpeechSynthesisUtterance(`${speech.textContent}`);
         speechSynthesis.speak(utterance);
@@ -167,5 +199,5 @@ document.addEventListener("DOMContentLoaded", function () {
     else {
         retrieveStorage();
     }
-    console.log(loadedCompanies[0]);
+    //console.log(loadedCompanies[0]);
 });
