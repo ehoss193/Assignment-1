@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Populate all elements after finding company based on symbol
     function populateData(symbol) {
+        console.log(symbol);
         let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
         displayInformation(chosenCompany);
         displayMap(chosenCompany);
@@ -140,7 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
         //Find out how to put in additional tables via javascript
         //let financialTable = document.getElementById('dataList');
         let stockTable = document.getElementById('dataList');
-        let minMaxTable = document.getElementById('avgminmax');
         let openValues = [], closeValues = [], lowValues = [], highValues = [], volumeValues = [];
         //Clearing table from previous company
         while (stockTable.rows.length > 1) {
@@ -165,43 +165,90 @@ document.addEventListener("DOMContentLoaded", function () {
             volumeCell.innerHTML = `${d.volume}`;
             //Values put into an array for each datacell for max min and average calculation
             openValues.push(parseFloat(d.open));
-            closeValues.push(parseFloat(d.open));
-            lowValues.push(parseFloat(d.open));
-            highValues.push(parseFloat(d.open));
-            volumeValues.push(parseFloat(d.open));
+            closeValues.push(parseFloat(d.close));
+            lowValues.push(parseFloat(d.low));
+            highValues.push(parseFloat(d.high));
+            volumeValues.push(parseFloat(d.volume));
         }
-        //Populate min max avg table adding table data to each row
-        //console.log(openValues);
-        //console.log(calculateAverage(openValues));
-        //console.log(getMax(openValues));
-        //console.log(getMin(openValues));
-        
+        //Clear avg table from previous company
+        deleteCells('average');
+        //Populate avg table row
+        addCells('average', openValues, closeValues, lowValues, highValues, volumeValues);
+        //Clear avg table from previous company
+        deleteCells('min');
+        //Populate min table row
+        addCells('min', openValues, closeValues, lowValues, highValues, volumeValues);
+        //Clear avg table from previous company
+        deleteCells('max');
+        //Populate max table row
+        addCells('max', openValues, closeValues, lowValues, highValues, volumeValues);
+    }
+    //Function to delete cells added to minmaxavg
+    function deleteCells(rowName) {
+        let row = document.getElementById(`${rowName}`);
+        let cells = row.cells;
+        if (cells.length > 1) {
+            for (let x = 0; x < 5; x++) {
+                row.deleteCell(1);
+            }
+        }
+    }
+    //Function to add cells to minmaxavg
+    function addCells(rowName, openValues, closeValues, lowValues, highValues, volumeValues) {
+        let row = document.getElementById(`${rowName}`);
+        let open = row.insertCell(1);
+        let close = row.insertCell(2);
+        let low = row.insertCell(3);
+        let high = row.insertCell(4);
+        let volume = row.insertCell(5);
+        if (rowName == 'average') {
+            open.innerHTML = getAverage(openValues, 7);
+            close.innerHTML = getAverage(closeValues, 7);
+            low.innerHTML = getAverage(lowValues, 7);
+            high.innerHTML = getAverage(highValues), 7;
+            volume.innerHTML = getAverage(volumeValues, 0);
+        }
+        else if (rowName == 'min') {
+            open.innerHTML = getMin(openValues);
+            close.innerHTML = getMin(closeValues);
+            low.innerHTML = getMin(lowValues);
+            high.innerHTML = getMin(highValues);
+            volume.innerHTML = getMin(volumeValues);
+        }
+        else if (rowName == 'max') {
+            open.innerHTML = getMax(openValues);
+            close.innerHTML = getMax(closeValues);
+            low.innerHTML = getMax(lowValues);
+            high.innerHTML = getMax(highValues);
+            volume.innerHTML = getMax(volumeValues);
+        }
     }
     //Calculate the average from an array of numbers
-    function calculateAverage(numbers){
+    function getAverage(numbers, parseValue) {
         let avg = 0;
-        for(let x = 0; x < numbers.length; x++){
+        for (let x = 0; x < numbers.length; x++) {
             avg += numbers[x];
         }
-        return avg = avg/numbers.length;
+        avg = avg / numbers.length;
+        return avg.toFixed(parseValue);
     }
     //Calculate the max from an array of numbers
-    function getMax(numbers){
+    function getMax(numbers) {
         let max = 0;
-        for(let x = 0; x < numbers.length; x++){
-            if(max < numbers[x]){
+        for (let x = 0; x < numbers.length; x++) {
+            if (max < numbers[x]) {
                 max = numbers[x];
             }
         }
         return max;
     }
     //Calculate the min from an array of numbers
-    function getMin(numbers){
+    function getMin(numbers) {
         let min = numbers[0];
-        for(let x = 0; x < numbers.length; x++){
-            if(min > numbers[x]){
+        for (let x = 0; x < numbers.length; x++) {
+            if (min > numbers[x]) {
                 min = numbers[x];
-             }
+            }
         }
         return min;
     }
@@ -240,5 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
     else {
         retrieveStorage();
     }
-    //console.log(loadedCompanies[0]);
+    console.log(loadedCompanies);
+    //Pearson Plc doesn't work
+    //Need to generate error to console if something doesn't work
 });
