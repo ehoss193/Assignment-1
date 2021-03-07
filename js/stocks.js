@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     //API Links
     const companyAPI = 'https://www.randyconnolly.com/funwebdev/3rd/api/stocks/companies.php';
+    //let stockAPI = 'https://www.randyconnolly.com/funwebdev/3rd/api/stocks/history.php?symbol=xxx' xxx is the company symbol
     //localStorage 
     //stores key-value pairs. So to store a entire javascript object we need to serialize it first (with JSON.stringify, for example): 
     //You will need to check to see if local storage exists before you put everything into the array
@@ -100,20 +101,24 @@ document.addEventListener("DOMContentLoaded", function () {
         let logo = document.createElement('img');
         let link = document.createElement('a');
         let info = document.createElement('p');
+        let linkText = document.createTextNode(`${company.name}`);
         info.innerText = `${company.description}
                 Symbol: ${company.symbol}
                 Name: ${company.name} 
                 Sector: ${company.sector} 
                 Subindustry: ${company.subindustry} 
                 Address: ${company.address} 
-                Exchange: ${company.exchange} `
+                Exchange: ${company.exchange} 
+                Website: `
         logo.setAttribute("src", `logos/${company.symbol}.svg`);
         //link.setAttribute("title", `${company.name}: Website Link`);
         link.setAttribute("href", `${company.website}`);
         link.setAttribute("alt", `${company.symbol} website`)
+        link.appendChild(linkText);
         document.getElementById("generatedInfo").appendChild(logo);
         document.getElementById("generatedInfo").appendChild(info);
-        document.getElementById("generatedInfo").appendChild(link);
+        info.appendChild(link);
+        //document.getElementById("generatedInfo").appendChild(link);
     }
     //Map Generation
     
@@ -122,12 +127,17 @@ document.addEventListener("DOMContentLoaded", function () {
         let map;
         map = new google.maps.Map(document.getElementById('map'), {
             center:{lat: company.latitude, lng: company.longitude},
-            zoom: 8
+            zoom: 15
         });
     }
     //Stock Data
     function displayStockData(company) {
-
+        let nameSymbol = document.createElement('h3');
+        let description = document.createElement('p');
+        description.innerText = `${company.description}`;
+        nameSymbol.innerText = `${company.name} (${company.symbol})`;
+        document.getElementById("name-symbol").appendChild(nameSymbol);
+        document.getElementById("name-symbol").appendChild(description);
     }
     //Charts
     function displayCharts(company) {
@@ -135,13 +145,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     //Company Name + Symbol
     function displayNameSymbol(company) {
-
+        
     }
     //Financials
     function displayFinancials(company) {
 
     }
-    //Active code
+    //Speech
+    document.querySelector('#speak').addEventListener('click', (e) =>{
+        let speech = document.querySelector('#name-symbol p');
+        const utterance = new SpeechSynthesisUtterance(`${speech.textContent}`);
+        speechSynthesis.speak(utterance);
+    });
+    //Active 
     let loadedCompanies = new Array;
     let options = "";
     //Conditional to check for storage if storage is null fetch companies from API, if storage is not null then retrieve local storage.
