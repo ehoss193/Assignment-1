@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let symbol = document.createAttribute("id");
             symbol.value = `${company.symbol}`;
             option.setAttributeNode(symbol);
-            option.text = `${company.symbol} | ${company.name}`;
+            option.text = `${company.name}`;
             document.getElementById("companies").add(option);
             //Attribute will be company symbol to be used in search function later
         }
@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     //Event listener for filter
     document.getElementById("go").addEventListener("click", function () {
-        //Filter Function
         let re = document.getElementById("field").value;
         const regexEx = loadedCompanies.filter(company => company.name.match(re));
         populateList(regexEx);
@@ -86,27 +85,57 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Find function for retrieving specific company data based on company symbol returning company from array of companies for use in other functions also calls other functions
     //Company Information
-
+        function displayInformation(company){
+            //Clearing old information
+            document.getElementById("generatedInfo").innerHTML = "";
+            let logo = document.createElement('img');
+            let link = document.createElement('a');
+            let info = document.createElement('p');
+            info.innerText = `${company.description}
+                Symbol: ${company.symbol}
+                Name: ${company.name} 
+                Sector: ${company.sector} 
+                Subindustry: ${company.subindustry} 
+                Address: ${company.address} 
+                Exchange: ${company.exchange} `
+            logo.setAttribute("src", `logos/${company.symbol}.svg`);
+            //link.setAttribute("title", `${company.name}: Website Link`);
+            link.setAttribute("href", `${company.website}`);
+            link.setAttribute("alt", `${company.symbol} website`)
+            document.getElementById("generatedInfo").appendChild(logo);
+            document.getElementById("generatedInfo").appendChild(info);
+            document.getElementById("generatedInfo").appendChild(link);
+        }
     //Map
+        function displayMap(company){
 
+        }
     //Stock Data
+        function displayStockData(company){
 
-    //Additional Information
-
+        }
     //Charts
+        function displayCharts(company){
 
+        }
     //Company Name + Symbol
+        function displayNameSymbol(company){
 
+        }
     //Financials
+        function displayFinancials(company){
 
+        }
     //Active code
-    //Conditional to check for storage if storage is null fetch companies from API, if storage is not null then retrieve local storage.
     let loadedCompanies = new Array;
     let options = "";
+    //Conditional to check for storage if storage is null fetch companies from API, if storage is not null then retrieve local storage.
     if (localStorage.length == 0) {
         fetchDataCompanies();
     }
     else {
         retrieveStorage();
     }
+    displayInformation(loadedCompanies[5]);
+    console.log(loadedCompanies[0]);
 });
