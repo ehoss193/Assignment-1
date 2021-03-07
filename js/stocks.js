@@ -78,54 +78,63 @@ document.addEventListener("DOMContentLoaded", function () {
                 selectedOption = e.target;
                 //Send this option.id to find function
                 //find function sends array object to all of the other functions to populate the site
-                console.log(selectedOption.id);
+                populateData(selectedOption.id);
             });
         }
     }
 
-    //Find function for retrieving specific company data based on company symbol returning company from array of companies for use in other functions also calls other functions
+    //Populate all elements after finding company based on symbol
+    function populateData(symbol){
+        let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
+        displayInformation(chosenCompany);
+        displayMap(company);
+        displayStockData(company);
+        displayCharts(company);
+        displayNameSymbol(company);
+        displayFinancials(company);
+    }
     //Company Information
-        function displayInformation(company){
-            //Clearing old information
-            document.getElementById("generatedInfo").innerHTML = "";
-            let logo = document.createElement('img');
-            let link = document.createElement('a');
-            let info = document.createElement('p');
-            info.innerText = `${company.description}
+    function displayInformation(company) {
+        //Clearing old information
+        document.getElementById("generatedInfo").innerHTML = "";
+        let logo = document.createElement('img');
+        let link = document.createElement('a');
+        let info = document.createElement('p');
+        info.innerText = `${company.description}
                 Symbol: ${company.symbol}
                 Name: ${company.name} 
                 Sector: ${company.sector} 
                 Subindustry: ${company.subindustry} 
                 Address: ${company.address} 
                 Exchange: ${company.exchange} `
-            logo.setAttribute("src", `logos/${company.symbol}.svg`);
-            //link.setAttribute("title", `${company.name}: Website Link`);
-            link.setAttribute("href", `${company.website}`);
-            link.setAttribute("alt", `${company.symbol} website`)
-            document.getElementById("generatedInfo").appendChild(logo);
-            document.getElementById("generatedInfo").appendChild(info);
-            document.getElementById("generatedInfo").appendChild(link);
-        }
+        logo.setAttribute("src", `logos/${company.symbol}.svg`);
+        //link.setAttribute("title", `${company.name}: Website Link`);
+        link.setAttribute("href", `${company.website}`);
+        link.setAttribute("alt", `${company.symbol} website`)
+        document.getElementById("generatedInfo").appendChild(logo);
+        document.getElementById("generatedInfo").appendChild(info);
+        document.getElementById("generatedInfo").appendChild(link);
+    }
     //Map
-        function displayMap(company){
+    function displayMap(company) {
 
-        }
+    }
     //Stock Data
-        function displayStockData(company){
+    function displayStockData(company) {
 
-        }
+    }
     //Charts
-        function displayCharts(company){
+    function displayCharts(company) {
 
-        }
+    }
     //Company Name + Symbol
-        function displayNameSymbol(company){
+    function displayNameSymbol(company) {
 
-        }
+    }
     //Financials
-        function displayFinancials(company){
+    function displayFinancials(company) {
 
-        }
+    }
     //Active code
     let loadedCompanies = new Array;
     let options = "";
@@ -136,6 +145,5 @@ document.addEventListener("DOMContentLoaded", function () {
     else {
         retrieveStorage();
     }
-    displayInformation(loadedCompanies[5]);
     console.log(loadedCompanies[0]);
 });
