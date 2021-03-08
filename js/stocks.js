@@ -38,8 +38,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function fetchStockData(symbol) {
         fetch(`${stockAPI}${symbol}`)
             .then((resp) => resp.json())
-            .then(data => displayStockData(data))
+            .then(data => verifyStockData(data))
             .catch(error => console.error(error));
+    }
+    function verifyStockData(data){
+        if (data.length == 0) {
+            throw new Error('Company does not exist in company data API');
+        }
+        companyData = data;
+        sortStockData(companyData, "Date");
     }
     //If there is no storage this function is called to store each company value
     function storeCompanies(companies) {
@@ -88,15 +95,27 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
+    //Event listener for stock data 
+    function eventListenerSort(){
+        let sortBy;
+        stockTableHeadings = document.querySelectorAll("#dataList th");
+        for (heading of stockTableHeadings) {
+            heading.addEventListener("click", function (e) {
+                sortBy = e.target.innerHTML;
+                sortStockData(companyData, sortBy);
+            });
+        };
+    }
+
 
     //Populate all elements after finding company based on symbol
     function populateData(symbol) {
-        console.log(symbol);
-        let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
-        console.log(chosenCompany);
+        let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);   
         displayInformation(chosenCompany);
         displayMap(chosenCompany);
         fetchStockData(symbol);
+        //Add event listener to headings once the company has been selected
+        eventListenerSort();
         //displayStockData(chosenCompany);
         displayCharts(chosenCompany);
         displayNameSymbol(chosenCompany);
@@ -136,6 +155,42 @@ document.addEventListener("DOMContentLoaded", function () {
             zoom: 15
         });
     }
+    //Sort Stock Data
+    function sortStockData(data, sortBy) {
+        let sortedData;
+        if (sortBy == "Open") {
+            sortedData = data.sort((a, b) => {
+                return a.open < b.open ? -1 : 1;
+            });
+        }
+        else if (sortBy == "Close") {
+            sortedData = data.sort((a, b) => {
+                return a.close < b.close ? -1 : 1;
+            });
+        }
+        else if (sortBy == "Low") {
+            sortedData = data.sort((a, b) => {
+                return a.low < b.low ? -1 : 1;
+            });
+        }
+        else if (sortBy == "High") {
+            sortedData = data.sort((a, b) => {
+                return a.high < b.high ? -1 : 1;
+            });
+        }
+        else if (sortBy == "Volume") {
+            sortedData = data.sort((a, b) => {
+                return a.volume < b.volume ? -1 : 1;
+            });
+        }
+        else {
+            //Default is to sort by date
+            sortedData = data.sort((a, b) => {
+                return a.date < b.date ? -1 : 1;
+            });
+        }
+        displayStockData(sortedData);
+    }
     //Stock Data
     function displayStockData(data) {
         let stockTable = document.getElementById('dataList');
@@ -144,16 +199,12 @@ document.addEventListener("DOMContentLoaded", function () {
         while (stockTable.rows.length > 1) {
             stockTable.deleteRow(1);
         }
-        //Clear avg table from previous company
+        //Clear avg row from previous company
         deleteCells('average');
-        //Clear min table from previous company
+        //Clear min row from previous company
         deleteCells('min');
-        //Clear max table from previous company
+        //Clear max row from previous company
         deleteCells('max');
-        //Throw error if company symbol returned no result
-        if (data.length == 0) {
-            throw new Error('Company does not exist in company data API');
-        }
         //Populate Stock Data Table
         for (d of data) {
             //Creating new row in table
@@ -269,11 +320,30 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("name-symbol").appendChild(nameSymbol);
         document.getElementById("name-symbol").appendChild(description);
     }
-    //Financials Needs to be a formatted table
+    //Financials
     function displayFinancials(company) {
         let financialTable = document.getElementById('financialdata');
+        //Clearing table from previous company
+        while (financialTable.rows.length > 1) {
+            financialTable.deleteRow(1);
+        }
+        //Error thrown if financials is null
         if (company.financials == null) {
             throw new Error('Company finacials do not exist.');
+        }
+        //Financials is three years of data so array iterates 3 times
+        for (let x = 2; x >= 0; x--) {
+            let row = financialTable.insertRow();
+            let yearCell = row.insertCell(0);
+            yearCell.innerHTML = `${company.financials.years[x]}`;
+            let revenueCell = row.insertCell(1);
+            revenueCell.innerHTML = `${company.financials.revenue[x]}`;
+            let earningsCell = row.insertCell(2);
+            earningsCell.innerHTML = `${company.financials.earnings[x]}`;
+            let assetsCell = row.insertCell(3);
+            assetsCell.innerHTML = `${company.financials.assets[x]}`;
+            let liabilitiesCell = row.insertCell(4);
+            liabilitiesCell.innerHTML = `${company.financials.liabilities[x]}`;
         }
     }
     //Speech
@@ -283,7 +353,8 @@ document.addEventListener("DOMContentLoaded", function () {
         speechSynthesis.speak(utterance);
     });
     //Active 
-    let loadedCompanies = new Array;
+    let loadedCompanies = [];
+    let companyData = [];
     let options = "";
     //Conditional to check for storage if storage is null fetch companies from API, if storage is not null then retrieve local storage.
     if (localStorage.length == 0) {
@@ -292,8 +363,11 @@ document.addEventListener("DOMContentLoaded", function () {
     else {
         retrieveStorage();
     }
-    console.log(loadedCompanies);
-    for(let company of loadedCompanies){
-        console.log(company.financials);
-    }
+
+    //Need to add event listener for table headings to change sort order 
+    //We can send the data to a function called sort data with the initial sort type being 'date'
+    //The sort function can then send the data to the display function
+    //Need to add css to indicate the headings are clickable
+    //Need to make company Information, stock data and map hidden until company is clicked.
+    //Need to reorganize code so like items and related items are together
 });
