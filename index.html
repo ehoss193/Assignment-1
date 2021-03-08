@@ -17,7 +17,7 @@
         <label id="creditsLabel">Credits</label>
         <p id="credits" class="invisibleCredits hideCredits">Name: Erich Hoss Course: COMP 3512 External API Used:
             Google Maps JS
-            API, ChartJS</p>
+            API, ChartJS CSS Loader source: https://loading.io/css/</p>
     </header>
     <div class="grid-container-a visible">
         <div class="grid-item-a1" id="list">
@@ -27,6 +27,7 @@
                 <input id="field" type="text" class="search" placeholder="By company name" list="filterList">
                 <input id="go" type="button" value="Go">
                 <input id="clear" type="button" value="Clear"></br>
+                <div id="companyLoader" class="lds-dual-ring"> </div>
                 <select id="companies" size="30">
 
                 </select>
@@ -57,18 +58,17 @@
                     <th>Max</th>
                 </tr>
             </table>
-            <div id="scrollbox">
-                <table id="dataList">
-                    <tr>
-                        <th>Date</th>
-                        <th>Open</th>
-                        <th>Close</th>
-                        <th>Low</th>
-                        <th>High</th>
-                        <th>Volume</th>
-                    </tr>
-                </table>
-            </div>
+            <div id="stockLoader" class="lds-dual-ring"> </div>
+            <table id="dataList">
+                <tr>
+                    <th>Date</th>
+                    <th>Open</th>
+                    <th>Close</th>
+                    <th>Low</th>
+                    <th>High</th>
+                    <th>Volume</th>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="grid-container-b hidden">

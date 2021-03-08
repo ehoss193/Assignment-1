@@ -29,22 +29,27 @@ document.addEventListener("DOMContentLoaded", function () {
     function fetchDataCompanies() {
         fetch(companyAPI)
             .then((resp) => resp.json())
-            .then(data => storeCompanies(data))
+            .then(data => {
+                document.querySelector("#companyLoader").style.display = "block"
+                storeCompanies(data)})
             .catch(error => console.error(error));
     }
     function fetchStockData(symbol) {
         fetch(`${stockAPI}${symbol}`)
             .then((resp) => resp.json())
-            .then(data => verifyStockData(data))
+            .then(data => {
+                document.querySelector("#stockLoader").style.display = "block";
+                verifyStockData(data)})
             .catch(error => console.error(error));
     }
     function verifyStockData(data) {
-        //Check to see if data exists for the company
+        //Check to see if data exists for the company'
         if (data.length == 0) {
             //Hide the stock data element if there is no data
             document.querySelector('#stockData').classList.add("error");
         }
         else {
+            document.querySelector("#stockLoader").style.display = "none";
             document.querySelector('#stockData').classList.remove('error');
             companyData = data;
             sortStockData(companyData, "Date");
@@ -90,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //Event listener for option select
     function eventListenerOptions() {
         options = document.querySelectorAll('option');
+        document.querySelector("#stockLoader").style.display = "none";
         for (option of options) {
             option.addEventListener("click", function (e) {
                 selectedOption = e.target;
@@ -560,6 +566,8 @@ document.addEventListener("DOMContentLoaded", function () {
         speechSynthesis.speak(utterance);
     });
     //Active 
+    //Loader display none for company loader
+    document.querySelector("#companyLoader").style.display = "none";
     let loadedCompanies = [];
     let companyData = [];
     let options = "";
@@ -568,6 +576,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchDataCompanies();
     }
     else {
+        
         retrieveStorage();
     }
     //We meed to add a loading function to display a loading circle
