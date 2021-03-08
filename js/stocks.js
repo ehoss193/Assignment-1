@@ -570,12 +570,5 @@ document.addEventListener("DOMContentLoaded", function () {
     else {
         retrieveStorage();
     }
-    //Need to add event listener for table headings to change sort order 
-    //We can send the data to a function called sort data with the initial sort type being 'date'
-    //The sort function can then send the data to the display function
-    //Need to add css to indicate the headings are clickable
-    //Need to make company Information, stock data and map hidden until company is clicked.
-    //Need to reorganize code so like items and related items are together
-    //For loading just make a function
-    //If the financial data does not exist you must hide the financial grid item
+    //We meed to add a loading function to display a loading circle
 });

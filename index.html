@@ -15,7 +15,8 @@
     <header>
         <h2>COMP3512 Assignment 1</h2>
         <label id="creditsLabel">Credits</label>
-        <p id="credits" class="invisibleCredits hideCredits">Name: Erich Hoss Course: COMP 3512 External API Used: Google Maps JS
+        <p id="credits" class="invisibleCredits hideCredits">Name: Erich Hoss Course: COMP 3512 External API Used:
+            Google Maps JS
             API, ChartJS</p>
     </header>
     <div class="grid-container-a visible">
@@ -44,7 +45,7 @@
         </div>
         <div class="grid-item-a4" id="stockData">
             <h2>Stock Data</h2>
-            <input id="viewcharts" type="button" value="View Charts" class = "hidden">
+            <input id="viewcharts" type="button" value="View Charts" class="hidden">
             <table id="avgminmax">
                 <tr id="average">
                     <th>Avg</th>
@@ -56,16 +57,18 @@
                     <th>Max</th>
                 </tr>
             </table>
-            <table id="dataList">
-                <tr>
-                    <th>Date</th>
-                    <th>Open</th>
-                    <th>Close</th>
-                    <th>Low</th>
-                    <th>High</th>
-                    <th>Volume</th>
-                </tr>
-            </table>
+            <div id="scrollbox">
+                <table id="dataList">
+                    <tr>
+                        <th>Date</th>
+                        <th>Open</th>
+                        <th>Close</th>
+                        <th>Low</th>
+                        <th>High</th>
+                        <th>Volume</th>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
     <div class="grid-container-b hidden">
@@ -78,6 +81,7 @@
         </div>
         <div class="grid-item-b2" id="financials">
             <h2>Financials</h2>
+
             <table id="financialdata">
                 <tr>
                     <th>Year</th>

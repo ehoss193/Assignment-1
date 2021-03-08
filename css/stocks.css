@@ -56,7 +56,6 @@ body {
 #map {
     height: 95%;
 }
-
 .grid-container-a {
     display: grid;
     /*grid-template-columns: auto auto auto;*/
@@ -69,6 +68,7 @@ body {
     padding: 10px;
     justify-items: stretch;
     align-items: stretch;
+    
 }
 .grid-item-a1, .grid-item-a2, .grid-item-a3, .grid-item-a4 {
     margin-top: -5px;
@@ -80,7 +80,6 @@ body {
 .grid-item-a1 {
     grid-column: 1 / 1;
     grid-row: 1 / 5;
-    overflow-y: scroll;
 }
 
 .grid-item-a2 {
@@ -102,7 +101,8 @@ body {
 .grid-container-b {
     padding: 10px;
     display: inline-grid;
-    grid-template-columns: auto auto;
+    grid-template-rows: repeat(1, 1fr);
+    grid-template-columns: 0.5fr;
     grid-row-gap: 10px;
     grid-column-gap: 10px;
     margin-left: 2em;
@@ -230,4 +230,11 @@ th, td {
 }
 input:focus {
     background-color: AliceBlue;
+}
+
+/* Tablet */
+@media (max-width: 968px) {
+    .grid-container-a, .grid-container-b {
+        display: inline-table;
+    }
 }
