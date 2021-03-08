@@ -306,8 +306,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return min;
     }
     //Charts
-    function displayCharts(company) {
-
+    function displayCharts(company, data) {
+        //Barchart displays the 2017, 2018, 2019 revenue earnings, assets and liabilities
+        //Candlestick chart which displays the min max and average values for open, close, low and high
+        //Line chart which plots the close value and volume for each day in data set. This will require different y axis ranges for the close and volume lines
+        //since there are 61 data points x-axis labeling will need to be sensibile
     }
     //Company Name + Symbol
     function displayNameSymbol(company) {
