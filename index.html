@@ -14,10 +14,11 @@
 <body>
     <header>
         <h2>COMP3512 Assignment 1</h2>
-        <label>Credits</label>
-        <p id="credits">Name: Erich Hoss Course: COMP 3512 API Used: Google Maps JS API, ChartJS</p>
+        <label id="creditsLabel">Credits</label>
+        <p id="credits" class="invisibleCredits hideCredits">Name: Erich Hoss Course: COMP 3512 External API Used: Google Maps JS
+            API, ChartJS</p>
     </header>
-    <div class=grid-container-a>
+    <div class="grid-container-a visible">
         <div class="grid-item-a1" id="list">
             <h3>List of Companies</h3>
             <form>
@@ -26,7 +27,7 @@
                 <input id="go" type="button" value="Go">
                 <input id="clear" type="button" value="Clear"></br>
                 <select id="companies" size="50">
-                    
+
                 </select>
             </form>
         </div>
@@ -44,7 +45,7 @@
         </div>
         <div class="grid-item-a4" id="stockData">
             <h3>Stock Data</h3>
-            <input type="button" value="View Charts">
+            <input id="viewcharts" type="button" value="View Charts">
             <table id="avgminmax">
                 <tr id="average">
                     <th>Avg</th>
@@ -68,8 +69,8 @@
             </table>
         </div>
     </div>
-    
-    <div class=grid-container-b>
+<!-- add hidden to grid container-->
+    <div class="grid-container-b ">
         <div class="grid-item-b1" id="charts">
             <h3>Charts</h3>
             <div id="barChart"></div>

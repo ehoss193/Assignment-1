@@ -89,8 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
         for (option of options) {
             option.addEventListener("click", function (e) {
                 selectedOption = e.target;
-                //Send this option.id to find function
-                //find function sends array object to all of the other functions to populate the site
                 populateData(selectedOption.id);
             });
         }
@@ -106,8 +104,34 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         };
     }
-
-
+    //Event listeners for credits
+    document.getElementById("creditsLabel").addEventListener("mouseover", function () {
+        console.log("triggered");
+        //Need to remove initial class, if hidecredits was on at the start would fade in on refresh.
+        document.getElementById("credits").classList.remove("invisibleCredits");
+        document.getElementById("credits").classList.toggle("showCredits");
+        document.getElementById("credits").classList.toggle("hideCredits");
+    });
+    document.getElementById("creditsLabel").addEventListener("mouseout", function () {
+        console.log("triggered");
+        setTimeout(function () {
+            document.getElementById("credits").classList.toggle("showCredits");
+            document.getElementById("credits").classList.toggle("hideCredits");
+        }, 5000);
+    });
+    //Event listeners for view chart
+    /*document.getElementById("viewcharts").addEventListener("click", function () {
+        document.querySelector(".grid-container-a").classList.toggle("hidden");
+        document.querySelector(".grid-container-a").classList.toggle("visible");
+        document.querySelector(".grid-container-b").classList.toggle("hidden");
+        document.querySelector(".grid-container-b").classList.toggle("visible");
+    });
+    document.getElementById("close").addEventListener("click", function () {
+        document.querySelector(".grid-container-a").classList.toggle("hidden");
+        document.querySelector(".grid-container-a").classList.toggle("visible");
+        document.querySelector(".grid-container-b").classList.toggle("hidden");
+        document.querySelector(".grid-container-b").classList.toggle("visible");
+    });*/
     //Populate all elements after finding company based on symbol
     function populateData(symbol) {
         let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
@@ -421,8 +445,8 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             options: {
                 indexAxis: 'y'
-                }
-            });
+            }
+        });
     }
     //Line chart
     function lineChart(data) {
@@ -497,7 +521,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let x = 2; x >= 0; x--) {
             let row = financialTable.insertRow();
             let yearCell = row.insertCell(0);
-            yearCell.innerHTML = `${company.financials.years[x]}`;
+            yearCell.innerHTML = `$${company.financials.years[x].toFixed(2)}`;
             let revenueCell = row.insertCell(1);
             revenueCell.innerHTML = `${company.financials.revenue[x]}`;
             let earningsCell = row.insertCell(2);

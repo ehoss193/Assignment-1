@@ -8,13 +8,11 @@ header {
     border-radius: 10px;
 }
 
-canvas{
-
-    width:600px !important;
-    height:300px !important;
-    responsive:true;
-  
-  }
+canvas {
+    width: 600px !important;
+    height: 300px !important;
+    responsive: true;
+}
 
 body {
     font-family: Garamond;
@@ -31,10 +29,12 @@ body {
     border: 3px solid;
     border-radius: 10px;
 }
-#field{
-    border:3px solid;
+
+#field {
+    border: 3px solid;
 }
-#generatedInfo{
+
+#generatedInfo {
     width: 500px;
     height: 400px;
     color: #565656;
@@ -42,19 +42,23 @@ body {
     border: 3px solid black;
     overflow-y: scroll;
 }
-#generatedInfo p{
+
+#generatedInfo p {
     margin-left: 3em;
     margin-right: 3em;
 }
-#generatedInfo img{
+
+#generatedInfo img {
     margin-left: auto;
     margin-right: auto;
     display: block;
     width: 200px;
 }
+
 #map {
     height: 600px;
 }
+
 .grid-container-a {
     display: grid;
     grid-template-columns: auto auto auto;
@@ -154,7 +158,50 @@ body {
     position: relative;
 }
 
+.showCredits {
+    animation: 1s fadeIn;
+    animation-fill-mode: forwards;
+    visibility: visible;
+}
+
+.invisibleCredits {
+    animation: 1s fadeOut;
+    animation-fill-mode: forwards;
+    visibility: hidden;
+}
+
+.hideCredits {
+    animation: 1s fadeOut;
+    animation-fill-mode: forwards;
+}
+
 /*overflow-y: scroll;*/
+
 /* Need to make this mobile friendly probably just stack the grid items on top of each other */
+
 /* Also need to make grid items fixed size so the page doesn't change when things change */
+
 /*Need to add padding to table row and style table in stock data*/
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+th {
+    cursor: pointer;
+}
