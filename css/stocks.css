@@ -8,6 +8,14 @@ header {
     border-radius: 10px;
 }
 
+canvas{
+
+    width:600px !important;
+    height:300px !important;
+    responsive:true;
+  
+  }
+
 body {
     font-family: Garamond;
     margin: 0;

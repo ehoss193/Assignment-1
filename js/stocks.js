@@ -41,12 +41,15 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => verifyStockData(data))
             .catch(error => console.error(error));
     }
-    function verifyStockData(data){
+    function verifyStockData(data) {
         if (data.length == 0) {
+            //Hide the stock data element
             throw new Error('Company does not exist in company data API');
         }
         companyData = data;
         sortStockData(companyData, "Date");
+        //Creating line Chart before data is sorted
+        lineChart(companyData);
     }
     //If there is no storage this function is called to store each company value
     function storeCompanies(companies) {
@@ -96,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     //Event listener for stock data 
-    function eventListenerSort(){
+    function eventListenerSort() {
         let sortBy;
         stockTableHeadings = document.querySelectorAll("#dataList th");
         for (heading of stockTableHeadings) {
@@ -110,16 +113,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Populate all elements after finding company based on symbol
     function populateData(symbol) {
-        let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);   
+        let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
         displayInformation(chosenCompany);
         displayMap(chosenCompany);
         fetchStockData(symbol);
         //Add event listener to headings once the company has been selected
         eventListenerSort();
         //displayStockData(chosenCompany);
-        displayCharts(chosenCompany);
+        //displayCharts(chosenCompany, companyData);
         displayNameSymbol(chosenCompany);
         displayFinancials(chosenCompany);
+        barChart(chosenCompany);
+
     }
     //Company Information
     function displayInformation(company) {
@@ -229,6 +234,8 @@ document.addEventListener("DOMContentLoaded", function () {
             highValues.push(parseFloat(d.high));
             volumeValues.push(parseFloat(d.volume));
         }
+        //Creating minMax chart with data given
+        minmaxChart(companyData);
         //Populate avg table row
         addCells('average', openValues, closeValues, lowValues, highValues, volumeValues);
         //Populate min table row
@@ -306,11 +313,124 @@ document.addEventListener("DOMContentLoaded", function () {
         return min;
     }
     //Charts
-    function displayCharts(company, data) {
-        //Barchart displays the 2017, 2018, 2019 revenue earnings, assets and liabilities
-        //Candlestick chart which displays the min max and average values for open, close, low and high
-        //Line chart which plots the close value and volume for each day in data set. This will require different y axis ranges for the close and volume lines
-        //since there are 61 data points x-axis labeling will need to be sensibile
+    //Bar Chart
+    function barChart(company) {
+        let revenue = [], earnings = [], assets = [], liabilities = [];
+        if (company.financials == null) {
+            for (let x = 0; x < 3; x++) {
+                revenue[x] = "0";
+                earnings[x] = "0";
+                assets[x] = "0";
+                liabilities[x] = "0";
+            }
+        }
+        else {
+            for (let x = 0; x < 3; x++) {
+                revenue[x] = `${company.financials.revenue[x]}`;
+                earnings[x] = `${company.financials.earnings[x]}`;
+                assets[x] = `${company.financials.assets[x]}`;
+                liabilities[x] = `${company.financials.liabilities[x]}`;
+            }
+        }
+        //Removing old canvas if one exists and creating new one
+        let barDiv = document.getElementById("barChart");
+        while (barDiv.hasChildNodes()) {
+            barDiv.removeChild(barDiv.firstChild);
+        }
+        let barCanvas = document.createElement('canvas');
+        barCanvas.id = "bar";
+        barDiv.appendChild(barCanvas);
+        let myBarChart = new Chart(document.getElementById("bar"), {
+            type: 'bar',
+            data: {
+                labels: ['2017', '2018', '2019'],
+                datasets: [
+                    {
+                        label: ": Revenue",
+                        backgroundColor: "LightCyan",
+                        hoverBackgroundColor: "LightCyan",
+                        data: [revenue[0], revenue[1], revenue[2]]
+                    },
+                    {
+                        label: ": Earnings",
+                        backgroundColor: "LightSalmon",
+                        hoverBackgroundColor: "LightSalmon",
+                        data: [earnings[0], earnings[1], earnings[2]]
+                    },
+                    {
+                        label: ": Assets",
+                        backgroundColor: "LightYellow",
+                        hoverBackgroundColor: "LightYellow",
+                        data: [assets[0], assets[1], assets[2]]
+                    },
+                    {
+                        label: ": Liabilities",
+                        backgroundColor: "PowderBlue",
+                        hoverBackgroundColor: "PowderBlue",
+                        data: [liabilities[0], liabilities[1], liabilities[2]]
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }]
+                }
+            }
+        });
+    }
+    //Replacement for candle chart
+    function minmaxChart(data) {
+        /*let minmaxDiv = document.getElementById("minmaxChart");
+        while (minmaxDiv.hasChildNodes()) {
+            minmaxDiv.removeChild(minmaxDiv.firstChild);
+        }
+        let minmaxCanvas = document.createElement('canvas');
+        minmaxCanvas.id = "minmax";
+        minmaxDiv.appendChild(document.getElementById("minmax"));*/
+    }
+    //Line chart
+    function lineChart(data) {
+        //Removing old canvas if one exists and creating new one
+        let lineDiv = document.getElementById("lineChart");
+        while (lineDiv.hasChildNodes()) {
+            lineDiv.removeChild(lineDiv.firstChild);
+        }
+        let lineCanvas = document.createElement('canvas');
+        lineCanvas.id = "line";
+        lineDiv.appendChild(lineCanvas);
+        let myLineChart = new Chart(document.getElementById("line"), {
+            type: 'line',
+            data: {
+                labels: ["2019-01-02", "2019-01-16", "2019-01-31", "2019-02-14", "2019-03-01", "2019-03-15", "2019-03-28"],
+                datasets: [{
+                    data: [86, 114, 106, 106, 107, 111, 133],
+                    label: "Close",
+                    borderColor: "SkyBlue",
+                    borderWidth: 10,
+                    fill: false
+                }, {
+                    data: [6, 3, 2, 2, 7, 26, 82],
+                    label: "Volume",
+                    borderColor: "SandyBrown",
+                    borderWidth: 10,
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                ticks: {
+                    title: {
+                        display: true,
+                        text: 'Close Value and Volume by Date (2019)'
+                    }
+                }
+
+            }
+        });
     }
     //Company Name + Symbol
     function displayNameSymbol(company) {
@@ -332,7 +452,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         //Error thrown if financials is null
         if (company.financials == null) {
+            let row = financialTable.insertRow();
+            //Displaying does not exist (DNE) when no financials exist
+            for (let x = 0; x < 5; x++) {
+                let errorCell = row.insertCell(x);
+                errorCell.innerHTML = "DNE";
+            }
             throw new Error('Company finacials do not exist.');
+            //Add function to make the charts not visible when financials do not exist
         }
         //Financials is three years of data so array iterates 3 times
         for (let x = 2; x >= 0; x--) {
@@ -366,7 +493,6 @@ document.addEventListener("DOMContentLoaded", function () {
     else {
         retrieveStorage();
     }
-
     //Need to add event listener for table headings to change sort order 
     //We can send the data to a function called sort data with the initial sort type being 'date'
     //The sort function can then send the data to the display function
