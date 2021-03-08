@@ -13,7 +13,7 @@
 
 <body>
     <header>
-        <h1>COMP3512 Assignment 1</h1>
+        <h2>COMP3512 Assignment 1</h2>
         <label id="creditsLabel">Credits</label>
         <p id="credits" class="invisibleCredits hideCredits">Name: Erich Hoss Course: COMP 3512 External API Used: Google Maps JS
             API, ChartJS</p>
@@ -26,7 +26,7 @@
                 <input id="field" type="text" class="search" placeholder="By company name" list="filterList">
                 <input id="go" type="button" value="Go">
                 <input id="clear" type="button" value="Clear"></br>
-                <select id="companies" size="50">
+                <select id="companies" size="30">
 
                 </select>
             </form>
@@ -38,7 +38,6 @@
             </div>
         </div>
         <div class="grid-item-a3" id="gridmap">
-            <h2>Map</h2>
             <div id="map">
 
             </div>
@@ -69,22 +68,15 @@
             </table>
         </div>
     </div>
-<!-- add hidden to grid container-->
-    <div class="grid-container-b ">
-        <div class="grid-item-b1" id="charts">
-            <h2>Charts</h2>
-            <div id="barChart"></div>
-            <div id="lineChart"></div>
-            <div id="minmaxChart"></div>
-        </div>
-        <div class="grid-item-b2" id="company">
+    <div class="grid-container-b hidden">
+        <div class="grid-item-b1" id="company">
             <div id="name-symbol">
 
             </div>
             <input id="speak" type="button" value="Speak">
             <input id="close" type="button" value="Close">
         </div>
-        <div class="grid-item-b3" id="financials">
+        <div class="grid-item-b2" id="financials">
             <h2>Financials</h2>
             <table id="financialdata">
                 <tr>
@@ -95,6 +87,18 @@
                     <th>Liabilities</th>
                 </tr>
             </table>
+        </div>
+        <div class="grid-item-b3" id="charts">
+            <h2>Bar Chart</h2>
+            <div id="barChart"></div>
+        </div>
+        <div class="grid-item-b4" id="charts">
+            <h2>Line Chart</h2>
+            <div id="lineChart"></div>
+        </div>
+        <div class="grid-item-b5" id="charts">
+            <h2>Min Max Average Chart</h2>
+            <div id="minmaxChart"></div>
         </div>
     </div>
 </body>

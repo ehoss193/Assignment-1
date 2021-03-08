@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 5000);
     });
     //Event listeners for view chart
-    /*document.getElementById("viewcharts").addEventListener("click", function () {
+    document.getElementById("viewcharts").addEventListener("click", function () {
         document.querySelector(".grid-container-a").classList.toggle("hidden");
         document.querySelector(".grid-container-a").classList.toggle("visible");
         document.querySelector(".grid-container-b").classList.toggle("hidden");
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".grid-container-a").classList.toggle("visible");
         document.querySelector(".grid-container-b").classList.toggle("hidden");
         document.querySelector(".grid-container-b").classList.toggle("visible");
-    });*/
+    });
     //Populate all elements after finding company based on symbol
     function populateData(symbol) {
         let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
@@ -143,8 +143,9 @@ document.addEventListener("DOMContentLoaded", function () {
         //displayStockData(chosenCompany);
         //displayCharts(chosenCompany, companyData);
         displayNameSymbol(chosenCompany);
-        displayFinancials(chosenCompany);
         barChart(chosenCompany);
+        displayFinancials(chosenCompany);
+        
 
     }
     //Company Information
@@ -155,14 +156,14 @@ document.addEventListener("DOMContentLoaded", function () {
         let link = document.createElement('a');
         let info = document.createElement('p');
         let linkText = document.createTextNode(`${company.name}`);
-        info.innerText = `${company.description}
-                Symbol: ${company.symbol}
-                Name: ${company.name} 
-                Sector: ${company.sector} 
-                Subindustry: ${company.subindustry} 
-                Address: ${company.address} 
-                Exchange: ${company.exchange} 
-                Website: `
+        info.innerHTML = `${company.description}<br>
+        <b>Symbol:</b> ${company.symbol} <br>
+        <b>Name:</b> ${company.name} <br>
+        <b>Sector:</b> ${company.sector} <br>
+        <b>Subindustry:</b> ${company.subindustry} <br>
+        <b>Address:</b> ${company.address} <br>
+        <b>Exchange:</b> ${company.exchange} <br>
+        <b>Website:</b> `
         logo.setAttribute("src", `logos/${company.symbol}.svg`);
         //link.setAttribute("title", `${company.name}: Website Link`);
         link.setAttribute("href", `${company.website}`);
@@ -450,10 +451,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     //Line chart
     function lineChart(data) {
-        //Removing old canvas if one exists and creating new one
         let lineDiv = document.getElementById("lineChart");
+        let closeData = [], volumeData = [];
+        //Removing old canvas if one exists and creating new one
         while (lineDiv.hasChildNodes()) {
             lineDiv.removeChild(lineDiv.firstChild);
+        }
+        //Retrieving Data
+        for(let x = 0; x < 60; x+=10){
+
         }
         let lineCanvas = document.createElement('canvas');
         lineCanvas.id = "line";
@@ -556,4 +562,5 @@ document.addEventListener("DOMContentLoaded", function () {
     //Need to make company Information, stock data and map hidden until company is clicked.
     //Need to reorganize code so like items and related items are together
     //For loading just make a function
+    //If the financial data does not exist you must hide the financial grid item
 });
