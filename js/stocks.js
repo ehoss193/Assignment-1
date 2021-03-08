@@ -39,14 +39,18 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error(error));
     }
     function verifyStockData(data) {
+        //Check to see if data exists for the company
         if (data.length == 0) {
-            //Hide the stock data element
-            throw new Error('Company does not exist in company data API');
+            //Hide the stock data element if there is no data
+            document.querySelector('#stockData').classList.add("error");
         }
-        companyData = data;
-        sortStockData(companyData, "Date");
-        //Creating line Chart before data is sorted
-        lineChart(companyData);
+        else {
+            document.querySelector('#stockData').classList.remove('error');
+            companyData = data;
+            sortStockData(companyData, "Date");
+            //Creating line Chart before data is sorted
+            lineChart(companyData);
+        }
     }
     //If there is no storage this function is called to store each company value
     function storeCompanies(companies) {
@@ -106,14 +110,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     //Event listeners for credits
     document.getElementById("creditsLabel").addEventListener("mouseover", function () {
-        console.log("triggered");
         //Need to remove initial class, if hidecredits was on at the start would fade in on refresh.
         document.getElementById("credits").classList.remove("invisibleCredits");
         document.getElementById("credits").classList.toggle("showCredits");
         document.getElementById("credits").classList.toggle("hideCredits");
     });
     document.getElementById("creditsLabel").addEventListener("mouseout", function () {
-        console.log("triggered");
         setTimeout(function () {
             document.getElementById("credits").classList.toggle("showCredits");
             document.getElementById("credits").classList.toggle("hideCredits");
@@ -145,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
         displayNameSymbol(chosenCompany);
         barChart(chosenCompany);
         displayFinancials(chosenCompany);
-        
+
 
     }
     //Company Information
@@ -458,7 +460,9 @@ document.addEventListener("DOMContentLoaded", function () {
             lineDiv.removeChild(lineDiv.firstChild);
         }
         //Retrieving Data
-        for(let x = 0; x < 60; x+=10){
+        for (let x = 0; x <= 60; x += 10) {
+            closeData.push(data[x].close);
+            volumeData.push(data[x].volume);
 
         }
         let lineCanvas = document.createElement('canvas');
@@ -469,14 +473,16 @@ document.addEventListener("DOMContentLoaded", function () {
             data: {
                 labels: ["2019-01-02", "2019-01-16", "2019-01-31", "2019-02-14", "2019-03-01", "2019-03-15", "2019-03-28"],
                 datasets: [{
-                    data: [86, 114, 106, 106, 107, 111, 133],
-                    label: "Close",
+                    data: [closeData[0], closeData[1], closeData[2], closeData[3], closeData[4], closeData[5], closeData[6]],
+                    label: "Close (Left)",
+                    yAxisID: 'A',
                     borderColor: "SkyBlue",
                     borderWidth: 10,
                     fill: false
                 }, {
-                    data: [6, 3, 2, 2, 7, 26, 82],
-                    label: "Volume",
+                    data: [volumeData[0], volumeData[1], volumeData[2], volumeData[3], volumeData[4], volumeData[5], volumeData[6]],
+                    label: "Volume (Right)",
+                    yAxisID: 'B',
                     borderColor: "SandyBrown",
                     borderWidth: 10,
                     fill: false
@@ -484,13 +490,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 ]
             },
             options: {
-                ticks: {
-                    title: {
-                        display: true,
-                        text: 'Close Value and Volume by Date (2019)'
-                    }
+                scales: {
+                    yAxes: [{
+                        id: 'A',
+                        type: 'linear',
+                        position: 'left',
+                    }, {
+                        id: 'B',
+                        type: 'linear',
+                        position: 'right',
+                        ticks: {
+                            max: 10000000,
+                            min: 0
+                        }
+                    }]
                 }
-
             }
         });
     }
@@ -521,7 +535,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 errorCell.innerHTML = "DNE";
             }
             throw new Error('Company finacials do not exist.');
-            //Add function to make the charts not visible when financials do not exist
         }
         //Financials is three years of data so array iterates 3 times
         for (let x = 2; x >= 0; x--) {

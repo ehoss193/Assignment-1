@@ -101,7 +101,8 @@ body {
 
 .grid-container-b {
     padding: 10px;
-    display: grid;
+    display: inline-grid;
+    grid-template-columns: auto auto;
     grid-row-gap: 10px;
     grid-column-gap: 10px;
     margin-left: 2em;
@@ -173,7 +174,10 @@ header p{
     animation-fill-mode: forwards;
     visibility: hidden;
 }
-
+.error{
+    visibility: hidden;
+    background-color: black;
+}
 .hideCredits {
     animation: 1s fadeOut;
     animation-fill-mode: forwards;
