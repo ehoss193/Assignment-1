@@ -136,6 +136,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     //Populate all elements after finding company based on symbol
     function populateData(symbol) {
+        //Once a company is selected view charts button is visible
+        document.querySelector('#viewcharts').classList.remove("hidden");
         let chosenCompany = loadedCompanies.find(company => company.symbol == symbol);
         displayInformation(chosenCompany);
         displayMap(chosenCompany);
@@ -204,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         else if (sortBy == "High") {
             sortedData = data.sort((a, b) => {
-                return a.high < b.high ? -1 : 1;
+                return a.high > b.high ? -1 : 1;
             });
         }
         else if (sortBy == "Volume") {
