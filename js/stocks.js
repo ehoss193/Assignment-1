@@ -523,13 +523,13 @@ document.addEventListener("DOMContentLoaded", function () {
             let yearCell = row.insertCell(0);
             yearCell.innerHTML = `$${company.financials.years[x].toFixed(2)}`;
             let revenueCell = row.insertCell(1);
-            revenueCell.innerHTML = `${company.financials.revenue[x]}`;
+            revenueCell.innerHTML = `$${company.financials.revenue[x].toFixed(2)}`;
             let earningsCell = row.insertCell(2);
-            earningsCell.innerHTML = `${company.financials.earnings[x]}`;
+            earningsCell.innerHTML = `$${company.financials.earnings[x].toFixed(2)}`;
             let assetsCell = row.insertCell(3);
-            assetsCell.innerHTML = `${company.financials.assets[x]}`;
+            assetsCell.innerHTML = `$${company.financials.assets[x].toFixed(2)}`;
             let liabilitiesCell = row.insertCell(4);
-            liabilitiesCell.innerHTML = `${company.financials.liabilities[x]}`;
+            liabilitiesCell.innerHTML = `$${company.financials.liabilities[x].toFixed(2)}`;
         }
     }
     //Speech
