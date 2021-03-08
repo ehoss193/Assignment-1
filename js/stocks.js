@@ -25,9 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         populateList(loadedCompanies);
     }
-
-    //Header - Credits
-
     //List of Companies
     function fetchDataCompanies() {
         fetch(companyAPI)
@@ -234,8 +231,8 @@ document.addEventListener("DOMContentLoaded", function () {
             highValues.push(parseFloat(d.high));
             volumeValues.push(parseFloat(d.volume));
         }
-        //Creating minMax chart with data given
-        minmaxChart(companyData);
+        //Creating minMax chart with data given already put into arrays
+        minmaxChart(openValues, closeValues, lowValues, highValues);
         //Populate avg table row
         addCells('average', openValues, closeValues, lowValues, highValues, volumeValues);
         //Populate min table row
@@ -382,15 +379,50 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-    //Replacement for candle chart
-    function minmaxChart(data) {
-        /*let minmaxDiv = document.getElementById("minmaxChart");
+    //Replacement for candle chart since installation of plugin failed repeatedly
+    function minmaxChart(openValues, closeValues, lowValues, highValues) {
+        let minmaxDiv = document.getElementById("minmaxChart");
         while (minmaxDiv.hasChildNodes()) {
             minmaxDiv.removeChild(minmaxDiv.firstChild);
         }
         let minmaxCanvas = document.createElement('canvas');
         minmaxCanvas.id = "minmax";
-        minmaxDiv.appendChild(document.getElementById("minmax"));*/
+        minmaxDiv.appendChild(minmaxCanvas);
+        let myMinMaxChart = new Chart(document.getElementById("minmax"), {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Min', 'Max', 'Avg'],
+                datasets: [
+                    {
+                        label: ": Open",
+                        backgroundColor: "Cornsilk",
+                        hoverBackgroundColor: "Cornsilk",
+                        data: [getMin(openValues), getMax(openValues), getAverage(openValues)]
+                    },
+                    {
+                        label: ": Close",
+                        backgroundColor: "DarkSlateGrey",
+                        hoverBackgroundColor: "DarkSlateGrey",
+                        data: [getMin(closeValues), getMax(closeValues), getAverage(closeValues)]
+                    },
+                    {
+                        label: ": Low",
+                        backgroundColor: "Tomato",
+                        hoverBackgroundColor: "Tomato",
+                        data: [getMin(lowValues), getMax(lowValues), getAverage(lowValues)]
+                    },
+                    {
+                        label: ": High",
+                        backgroundColor: "MediumSeaGreen",
+                        hoverBackgroundColor: "MediumSeaGreen",
+                        data: [getMin(highValues), getMax(highValues), getAverage(highValues)]
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y'
+                }
+            });
     }
     //Line chart
     function lineChart(data) {
@@ -499,4 +531,5 @@ document.addEventListener("DOMContentLoaded", function () {
     //Need to add css to indicate the headings are clickable
     //Need to make company Information, stock data and map hidden until company is clicked.
     //Need to reorganize code so like items and related items are together
+    //For loading just make a function
 });

@@ -6,9 +6,6 @@
     <title>COMP 3512 Assign 1</title>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBiKum5xdpqrOBA4SDCOkHHJE_3IktBlA& callback=initMap"></script>
-    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">-->
-    <!-- Bootstrap Stylesheet taken from https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
     <link rel="stylesheet" href="css/stocks.css">
     <script src="chartjs/dist/Chart.js"></script>
     <script src="js/stocks.js"></script>
@@ -18,6 +15,7 @@
     <header>
         <h2>COMP3512 Assignment 1</h2>
         <label>Credits</label>
+        <p id="credits">Name: Erich Hoss Course: COMP 3512 API Used: Google Maps JS API, ChartJS</p>
     </header>
     <div class=grid-container-a>
         <div class="grid-item-a1" id="list">
@@ -28,7 +26,7 @@
                 <input id="go" type="button" value="Go">
                 <input id="clear" type="button" value="Clear"></br>
                 <select id="companies" size="50">
-                    <!-- When you eventually make the grid size fixed you can likely just have the grid be scrollable again -->
+                    
                 </select>
             </form>
         </div>
@@ -47,16 +45,6 @@
         <div class="grid-item-a4" id="stockData">
             <h3>Stock Data</h3>
             <input type="button" value="View Charts">
-            <table id="dataList">
-                <tr>
-                    <th>Date</th>
-                    <th>Open</th>
-                    <th>Close</th>
-                    <th>Low</th>
-                    <th>High</th>
-                    <th>Volume</th>
-                </tr>
-            </table>
             <table id="avgminmax">
                 <tr id="average">
                     <th>Avg</th>
@@ -68,6 +56,16 @@
                     <th>Max</th>
                 </tr>
             </table>
+            <table id="dataList">
+                <tr>
+                    <th>Date</th>
+                    <th>Open</th>
+                    <th>Close</th>
+                    <th>Low</th>
+                    <th>High</th>
+                    <th>Volume</th>
+                </tr>
+            </table>
         </div>
     </div>
     
@@ -75,8 +73,8 @@
         <div class="grid-item-b1" id="charts">
             <h3>Charts</h3>
             <div id="barChart"></div>
-            <div id="minmaxChart"></div>
             <div id="lineChart"></div>
+            <div id="minmaxChart"></div>
         </div>
         <div class="grid-item-b2" id="company">
             <div id="name-symbol">
