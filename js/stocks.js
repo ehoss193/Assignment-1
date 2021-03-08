@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
             loadedCompanies.push(company);
             addStorage(company);
         }
+        document.querySelector("#companyLoader").style.display = "none";
         populateList(loadedCompanies);
     }
     //Populates the list of companies from data obtained from API or local storage
