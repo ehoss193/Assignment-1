@@ -12,7 +12,6 @@ header {
 canvas {
     width: 600px !important;
     height: 300px !important;
-
 }
 
 body {
@@ -21,6 +20,7 @@ body {
     background: #CFCCA3;
     color: #FEFEFD;
 }
+
 #companies {
     width: 100%;
     overflow-y: scroll;
@@ -56,9 +56,9 @@ body {
 #map {
     height: 95%;
 }
+
 .grid-container-a {
     display: grid;
-    /*grid-template-columns: auto auto auto;*/
     grid-template-rows: 1.5em 1.5em repeat(2, 350px);
     grid-auto-columns: 1fr;
     margin-left: 2em;
@@ -68,8 +68,8 @@ body {
     padding: 10px;
     justify-items: stretch;
     align-items: stretch;
-    
 }
+
 .grid-item-a1, .grid-item-a2, .grid-item-a3, .grid-item-a4 {
     margin-top: -5px;
     background: #565656;
@@ -77,8 +77,9 @@ body {
     border-radius: 10px;
     border: 5px solid rgb(36, 36, 36);
 }
+
 .grid-item-a1 {
-    grid-column: 1 / 1;
+    grid-column: 1 / 2;
     grid-row: 1 / 5;
 }
 
@@ -110,15 +111,16 @@ body {
     justify-items: stretch;
     align-items: stretch;
 }
-.grid-item-b1, .grid-item-b2, .grid-item-b3, .grid-item-b4, .grid-item-b5{
+
+.grid-item-b1, .grid-item-b2, .grid-item-b3, .grid-item-b4, .grid-item-b5 {
     margin-top: -5px;
     background: #565656;
     padding: 20px;
     border-radius: 10px;
     border: 5px solid rgb(36, 36, 36);
 }
-.grid-item-b1 {
 
+.grid-item-b1 {
     grid-column: 1 / 1;
     grid-row: 1 / 2;
 }
@@ -141,7 +143,6 @@ body {
 .grid-item-b5 {
     grid-column: 1 / 2;
     grid-row: 3 / 5;
-
 }
 
 .hidden {
@@ -155,14 +156,16 @@ body {
     position: relative;
 }
 
-header h2{
+header h2 {
     margin-top: -5px;
     block-size: 10px;
 }
-header p{
+
+header p {
     margin-top: 5px;
     block-size: 10px;
 }
+
 .showCredits {
     animation: 1s fadeIn;
     animation-fill-mode: forwards;
@@ -174,10 +177,12 @@ header p{
     animation-fill-mode: forwards;
     visibility: hidden;
 }
-.error{
+
+.error {
     visibility: hidden;
     background-color: black;
 }
+
 .hideCredits {
     animation: 1s fadeOut;
     animation-fill-mode: forwards;
@@ -197,14 +202,6 @@ th, td {
     border: 2px solid black;
     background-color:
 }
-
-/*overflow-y: scroll;*/
-
-/* Need to make this mobile friendly probably just stack the grid items on top of each other */
-
-/* Also need to make grid items fixed size so the page doesn't change when things change */
-
-/*Need to add padding to table row and style table in stock data*/
 
 @keyframes fadeIn {
     0% {
@@ -228,11 +225,13 @@ th, td {
 #dataList th, #go, #clear, #viewcharts, #speak, #close, #companies {
     cursor: pointer;
 }
+
 input:focus {
     background-color: AliceBlue;
 }
 
 /* Tablet */
+
 @media (max-width: 968px) {
     .grid-container-a, .grid-container-b {
         display: inline-table;
@@ -240,12 +239,14 @@ input:focus {
 }
 
 /* CSS Loader source: https://loading.io/css/ */
+
 .lds-dual-ring {
     display: inline-block;
     width: 80px;
     height: 80px;
-  }
-  .lds-dual-ring:after {
+}
+
+.lds-dual-ring:after {
     content: " ";
     display: block;
     width: 64px;
@@ -255,12 +256,13 @@ input:focus {
     border: 6px solid #fff;
     border-color: #fff transparent #fff transparent;
     animation: lds-dual-ring 1.2s linear infinite;
-  }
-  @keyframes lds-dual-ring {
+}
+
+@keyframes lds-dual-ring {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}

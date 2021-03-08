@@ -117,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     //Event listeners for credits
     document.getElementById("creditsLabel").addEventListener("mouseover", function () {
-        //Need to remove initial class, if hidecredits was on at the start would fade in on refresh.
         document.getElementById("credits").classList.remove("invisibleCredits");
         document.getElementById("credits").classList.toggle("showCredits");
         document.getElementById("credits").classList.toggle("hideCredits");
@@ -151,13 +150,9 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchStockData(symbol);
         //Add event listener to headings once the company has been selected
         eventListenerSort();
-        //displayStockData(chosenCompany);
-        //displayCharts(chosenCompany, companyData);
         displayNameSymbol(chosenCompany);
         barChart(chosenCompany);
         displayFinancials(chosenCompany);
-
-
     }
     //Company Information
     function displayInformation(company) {
@@ -176,14 +171,12 @@ document.addEventListener("DOMContentLoaded", function () {
         <b>Exchange:</b> ${company.exchange} <br>
         <b>Website:</b> `
         logo.setAttribute("src", `logos/${company.symbol}.svg`);
-        //link.setAttribute("title", `${company.name}: Website Link`);
         link.setAttribute("href", `${company.website}`);
         link.setAttribute("alt", `${company.symbol} website`)
         link.appendChild(linkText);
         document.getElementById("generatedInfo").appendChild(logo);
         document.getElementById("generatedInfo").appendChild(info);
         info.appendChild(link);
-        //document.getElementById("generatedInfo").appendChild(link);
     }
     //Map Generation
     function displayMap(company) {
@@ -245,9 +238,9 @@ document.addEventListener("DOMContentLoaded", function () {
         deleteCells('max');
         //Populate Stock Data Table
         for (d of data) {
-            //Creating new row in table
+            //Create new row in table
             let row = stockTable.insertRow();
-            //Creating new data cells in table from company API data
+            //Creating new data cells in row from company API data
             let dateCell = row.insertCell(0);
             dateCell.innerHTML = `${d.date}`;
             let openCell = row.insertCell(1);
@@ -365,8 +358,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 liabilities[x] = `${company.financials.liabilities[x]}`;
             }
         }
-        //Removing old canvas if one exists and creating new one
         let barDiv = document.getElementById("barChart");
+        //Removing old canvas if one exists and creating new one
         while (barDiv.hasChildNodes()) {
             barDiv.removeChild(barDiv.firstChild);
         }
@@ -418,6 +411,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //Replacement for candle chart since installation of plugin failed repeatedly
     function minmaxChart(openValues, closeValues, lowValues, highValues) {
         let minmaxDiv = document.getElementById("minmaxChart");
+        //Removing old canvas if one exists and creating new one
         while (minmaxDiv.hasChildNodes()) {
             minmaxDiv.removeChild(minmaxDiv.firstChild);
         }
@@ -566,7 +560,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const utterance = new SpeechSynthesisUtterance(`${speech.textContent}`);
         speechSynthesis.speak(utterance);
     });
-    //Active 
+    //Start
     //Loader display none for company loader
     document.querySelector("#companyLoader").style.display = "none";
     let loadedCompanies = [];
@@ -580,5 +574,4 @@ document.addEventListener("DOMContentLoaded", function () {
         
         retrieveStorage();
     }
-    //We meed to add a loading function to display a loading circle
 });
